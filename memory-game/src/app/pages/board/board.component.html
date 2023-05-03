@@ -1,8 +1,9 @@
 <div class="p-16 text-center container">
   <p class="font-weight-bold text-uppercase"> memory game</p>
   <p> Regole -> </p>
+  <p>Mosse: {{moves}}</p>
   <div class="justify-content-center row">
-      <app-card *ngFor="let card of cards;" class="col-3">
+      <app-card class="col-1" *ngFor="let card of cards;let i = index" (cardClicked)="cardClicked(i)" [cardData]="card">
       </app-card>
   </div>
 </div>
