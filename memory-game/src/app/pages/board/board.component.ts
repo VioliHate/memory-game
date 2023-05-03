@@ -1,6 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {CardModel} from "../../models/card.model";
 import {CardStatusEnum} from "../../models/card.interface";
+import {InfoDialogComponent} from "../../components/info-dialog/info-dialog.component";
+import {MatDialog} from "@angular/material/dialog";
 
 @Component({
   selector: 'app-board',
@@ -15,6 +17,8 @@ export class BoardComponent implements OnInit {
   moves: number = 0;
   point: number = 0;
 
+  restartFlag: boolean = false;
+
   imagesName = [
     'chiave-inglese.png',
     'ciliegie.png',
@@ -25,13 +29,14 @@ export class BoardComponent implements OnInit {
   ]
 
 
-  constructor() { }
+  constructor(public dialog: MatDialog) { }
 
   ngOnInit(): void {
     this.initCardGame();
   }
 
   initCardGame(){
+    this.restartFlag = false;
     this.moves = 0;
     this.cards = [];
     this.imagesName.forEach((name) => {
@@ -81,7 +86,30 @@ export class BoardComponent implements OnInit {
       const cardTwo = this.flippedCards[1];
       const nextState = cardOne.imageName === cardTwo.imageName ? CardStatusEnum.MATCHED : CardStatusEnum.DEFAULT;
       cardOne.state = cardTwo.state = nextState;
+      if(nextState === CardStatusEnum.MATCHED){
+        this.point++
+        if(this.point === this.imagesName.length){
+          this.restartFlag = true;
+          const dialogRef = this.dialog.open(InfoDialogComponent, {
+            data: {title: 'FINE PARTITA', message: 'Complimenti!' +
+                ' La partita è terminata premere riavvia in alto per ricomiciare'},
+            width: '20rem',
+            height: 'auto'
+          });
+        }
+      }
       this.flippedCards = [];
-    }, 1000);
+    }, 5000);
+  }
+
+  openRulesDialog() {
+      const dialogRef = this.dialog.open(InfoDialogComponent, {
+        data: {title: 'REGOLE', message: 'il giocatore scopre due carte. ' +
+            'Se trova una coppia di figure uguali, le carte rimarranno scoperte. ' +
+            'Se sbaglia, ricopre le carte che ha girato. ' +
+            'Si gioca fino a quando tutte le coppie sono state scoperte.'},
+        width: '20rem',
+        height: 'auto'
+      });
   }
 }

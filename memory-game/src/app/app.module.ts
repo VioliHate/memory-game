@@ -5,17 +5,21 @@ import { AppComponent } from './app.component';
 import { BoardComponent } from './pages/board/board.component';
 import { CardComponent } from './components/card/card.component';
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import { InfoDialogComponent } from './components/info-dialog/info-dialog.component';
+import {MatDialogModule} from "@angular/material/dialog";
 
 @NgModule({
   declarations: [
     AppComponent,
     BoardComponent,
-    CardComponent
+    CardComponent,
+    InfoDialogComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    MatDialogModule
   ],
   providers: [],
   bootstrap: [AppComponent]

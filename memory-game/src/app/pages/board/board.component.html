@@ -1,9 +1,12 @@
 <div class="p-16 text-center container">
   <p class="font-weight-bold text-uppercase"> memory game</p>
-  <p> Regole -> </p>
+  <p> <button (click)="openRulesDialog()" class="btn btn-primary">Regole</button></p>
+  <p> <button *ngIf="restartFlag" (click)="initCardGame()" class="btn btn-primary">Riavvia</button></p>
   <p>Mosse: {{moves}}</p>
-  <div class="grid p-16">
+  <div [ngStyle]="{'background-image': 'url(./assets/img/board.png)'}">
+    <div class="grid p-16">
       <app-card class="" *ngFor="let card of cards;let i = index" (cardClicked)="cardClicked(i)" [cardData]="card">
       </app-card>
+    </div>
   </div>
 </div>
