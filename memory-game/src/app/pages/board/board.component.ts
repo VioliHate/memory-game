@@ -19,6 +19,8 @@ export class BoardComponent implements OnInit {
 
   restartFlag: boolean = false;
 
+  timerId = null;
+
   imagesName = [
     'chiave-inglese.png',
     'ciliegie.png',
@@ -64,29 +66,30 @@ export class BoardComponent implements OnInit {
 
   cardClicked(i: number) {
     const cardInfo = this.cards[i];
-    if (cardInfo.state === CardStatusEnum.DEFAULT && this.flippedCards.length < 2) {
-      cardInfo.state = CardStatusEnum.FLIPPED;
-      this.flippedCards.push(cardInfo);
+      if (cardInfo.state === CardStatusEnum.DEFAULT && this.flippedCards.length < 2) {
+        cardInfo.state = CardStatusEnum.FLIPPED;
+        this.flippedCards.push(cardInfo);
 
-      if (this.flippedCards.length > 1) {
-        this.check();
-      }
+        if (this.flippedCards.length > 1) {
+          this.check();
+        }
 
-    } else if (cardInfo.state === CardStatusEnum.FLIPPED) {
-      cardInfo.state = CardStatusEnum.DEFAULT;
-      this.flippedCards.pop();
-      this.moves++;
+      } else if (cardInfo.state === CardStatusEnum.FLIPPED) {
+        cardInfo.state = CardStatusEnum.DEFAULT;
+        this.flippedCards.pop();
+        this.moves++;
     }
   }
 
   private check() {
     this.moves++;
-    setTimeout(() => {
+    let timer = setTimeout(() => {
       const cardOne = this.flippedCards[0];
       const cardTwo = this.flippedCards[1];
       const nextState = cardOne.imageName === cardTwo.imageName ? CardStatusEnum.MATCHED : CardStatusEnum.DEFAULT;
       cardOne.state = cardTwo.state = nextState;
       if(nextState === CardStatusEnum.MATCHED){
+        clearTimeout(timer);
         this.point++
         if(this.point === this.imagesName.length){
           this.restartFlag = true;
