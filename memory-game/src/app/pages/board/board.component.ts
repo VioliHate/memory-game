@@ -83,30 +83,35 @@ export class BoardComponent implements OnInit {
 
   private check() {
     this.moves++;
-    let timer = setTimeout(() => {
-      const cardOne = this.flippedCards[0];
-      const cardTwo = this.flippedCards[1];
-      const nextState = cardOne.imageName === cardTwo.imageName ? CardStatusEnum.MATCHED : CardStatusEnum.DEFAULT;
-      cardOne.state = cardTwo.state = nextState;
-      if(nextState === CardStatusEnum.MATCHED){
-        clearTimeout(timer);
-        this.point++
-        if(this.point === this.imagesName.length){
-          this.restartFlag = true;
-          const dialogRef = this.dialog.open(InfoDialogComponent, {
-            data: {title: 'FINE PARTITA', message: 'Complimenti!' +
-                ' La partita è terminata premere riavvia in alto per ricomiciare'},
-            width: '20rem',
-            height: 'auto'
-          });
-        }
-      }
-      this.flippedCards = [];
-    }, 5000);
+    let timer;
+    const cardOne = this.flippedCards[0];
+    const cardTwo = this.flippedCards[1];
+    const nextState = cardOne.imageName === cardTwo.imageName ? CardStatusEnum.MATCHED : CardStatusEnum.DEFAULT;
+    if(nextState === CardStatusEnum.MATCHED){
+      setTimeout(() => {
+        cardOne.state = cardTwo.state = nextState;
+          this.point++
+          if(this.point === this.imagesName.length){
+            this.restartFlag = true;
+            this.dialog.open(InfoDialogComponent, {
+              data: {title: 'FINE PARTITA', message: 'Complimenti!' +
+                  ' La partita è terminata premere riavvia in alto per ricomiciare'},
+              width: '20rem',
+              height: 'auto'
+            });
+          }
+        this.flippedCards = [];
+      }, 500);
+    } else {
+      setTimeout(() => {
+        cardOne.state = cardTwo.state = nextState;
+        this.flippedCards = [];
+      }, 5000);
+    }
   }
 
   openRulesDialog() {
-      const dialogRef = this.dialog.open(InfoDialogComponent, {
+      this.dialog.open(InfoDialogComponent, {
         data: {title: 'REGOLE', message: 'il giocatore scopre due carte. ' +
             'Se trova una coppia di figure uguali, le carte rimarranno scoperte. ' +
             'Se sbaglia, ricopre le carte che ha girato. ' +
