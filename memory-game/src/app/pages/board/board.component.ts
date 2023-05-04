@@ -41,6 +41,7 @@ export class BoardComponent implements OnInit {
     this.restartFlag = false;
     this.moves = 0;
     this.cards = [];
+    this.point = 0;
     this.imagesName.forEach((name) => {
       const card: CardModel = {
         imageName: name,
