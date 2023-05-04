@@ -5,7 +5,7 @@
   <p>Mosse: {{moves}}</p>
   <div [ngStyle]="{'background-image': 'url(./assets/img/board.png)'}">
     <div class="grid p-16">
-      <app-card class="" *ngFor="let card of cards;let i = index" (cardClicked)="cardClicked(i)" [cardData]="card" >
+      <app-card  *ngFor="let card of cards;let i = index" (cardClicked)="cardClicked(i)" [cardData]="card" [disableClick] = "flippedCards.length === 2">
       </app-card>
     </div>
   </div>

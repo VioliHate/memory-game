@@ -27,11 +27,13 @@ import {CardStatusEnum} from "../../models/card.interface";
 export class CardComponent implements OnInit {
 
   @Input() cardData: CardModel;
+  @Input() disableClick: boolean;
   @Output() cardClicked = new EventEmitter<any>;
 
   CardStatus = CardStatusEnum;
   constructor() {
     this.cardData = new CardModel();
+    this.disableClick = false;
   }
 
   ngOnInit(): void {

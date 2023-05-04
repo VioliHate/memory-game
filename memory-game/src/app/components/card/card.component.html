@@ -1,4 +1,4 @@
-<div class="card" (click)="cardClicked.emit()" [@cardFlip]="cardData.state">
+<div class="card" (click)="cardClicked.emit()" [@cardFlip]="cardData.state" [ngClass]="{'disableDiv': disableClick}">
   <div class="back">
     <img *ngIf="cardData.state !== CardStatus.MATCHED" src="assets/img/card-back.png" class="">
     <img *ngIf="cardData.state === CardStatus.MATCHED" src='{{"assets/img/front-card/"+cardData.imageName}}'>

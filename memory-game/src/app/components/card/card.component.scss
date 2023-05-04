@@ -33,3 +33,7 @@ img {
   height: 100%;
   object-fit: cover;
 }
+
+.disableDiv{
+  pointer-events:none;
+}
